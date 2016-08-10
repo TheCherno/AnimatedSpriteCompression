@@ -1,0 +1,10 @@
+bin/
+obj/
+*.db
+*.opendb
+*.vspx
+*.psess
+*.suo
+*.user
+*.png
+*.bin

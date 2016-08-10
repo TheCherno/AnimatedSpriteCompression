@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{BC369687-125E-4B06-B4F6-E3BE95B00668}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>SpriteCompression</RootNamespace>
+    <AssemblyName>sc</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="src\Compressor.cs" />
+    <Compile Include="src\Decompressor.cs" />
+    <Compile Include="src\Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Sprite.cs" />
+    <Compile Include="src\Utils.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="res\SpriteSheet-Walk\0001.png" />
+    <Content Include="res\SpriteSheet-Walk\0002.png" />
+    <Content Include="res\SpriteSheet-Walk\0003.png" />
+    <Content Include="res\SpriteSheet-Walk\0004.png" />
+    <Content Include="res\SpriteSheet-Walk\0005.png" />
+    <Content Include="res\SpriteSheet-Walk\0006.png" />
+    <Content Include="res\SpriteSheet-Walk\0007.png" />
+    <Content Include="res\SpriteSheet-Walk\0008.png" />
+    <Content Include="res\SpriteSheet-Walk\0009.png" />
+    <Content Include="res\SpriteSheet-Walk\0010.png" />
+    <Content Include="res\SpriteSheet-Walk\0011.png" />
+    <Content Include="res\SpriteSheet-Walk\0012.png" />
+    <Content Include="res\SpriteSheet-Walk\0013.png" />
+    <Content Include="res\SpriteSheet-Walk\0014.png" />
+    <Content Include="res\SpriteSheet-Walk\0015.png" />
+    <Content Include="res\SpriteSheet-Walk\0016.png" />
+    <Content Include="res\SpriteSheet-Walk\0017.png" />
+    <Content Include="res\SpriteSheet-Walk\0018.png" />
+    <Content Include="res\SpriteSheet-Walk\0019.png" />
+    <Content Include="res\SpriteSheet-Walk\0020.png" />
+    <Content Include="res\SpriteSheet-Walk\0021.png" />
+    <Content Include="res\SpriteSheet-Walk\0022.png" />
+    <Content Include="res\SpriteSheet-Walk\0023.png" />
+    <Content Include="res\SpriteSheet-Walk\0024.png" />
+    <Content Include="res\SpriteSheet-Walk\0025.png" />
+    <Content Include="res\SpriteSheet-Walk\0026.png" />
+    <Content Include="res\SpriteSheet-Walk\0027.png" />
+    <Content Include="res\SpriteSheet-Walk\0028.png" />
+    <Content Include="res\SpriteSheet-Walk\0029.png" />
+    <Content Include="res\SpriteSheet-Walk\0030.png" />
+    <Content Include="res\SpriteSheet-Walk\0031.png" />
+    <Content Include="res\SpriteSheet-Walk\0032.png" />
+    <Content Include="res\SpriteSheet-Walk\0033.png" />
+    <Content Include="res\SpriteSheet-Walk\0034.png" />
+    <Content Include="res\SpriteSheet-Walk\0035.png" />
+    <Content Include="res\SpriteSheet-Walk\0036.png" />
+    <Content Include="res\SpriteSheet-Walk\0037.png" />
+    <Content Include="res\SpriteSheet-Walk\0038.png" />
+    <Content Include="res\SpriteSheet-Walk\0039.png" />
+    <Content Include="res\SpriteSheet-Walk\0040.png" />
+    <Content Include="res\SpriteSheet-Walk\0041.png" />
+    <Content Include="res\SpriteSheet-Walk\0042.png" />
+    <Content Include="res\SpriteSheet-Walk\0043.png" />
+    <Content Include="res\SpriteSheet-Walk\0044.png" />
+    <Content Include="res\SpriteSheet-Walk\0045.png" />
+    <Content Include="res\SpriteSheet-Walk\0046.png" />
+    <Content Include="res\SpriteSheet-Walk\0047.png" />
+    <Content Include="res\SpriteSheet-Walk\0048.png" />
+    <Content Include="res\SpriteSheet-Walk\0049.png" />
+    <Content Include="res\SpriteSheet-Walk\0050.png" />
+    <Content Include="res\SpriteSheet-Walk\0051.png" />
+    <Content Include="res\SpriteSheet-Walk\0052.png" />
+    <Content Include="res\SpriteSheet-Walk\0053.png" />
+    <Content Include="res\SpriteSheet-Walk\0054.png" />
+    <Content Include="res\SpriteSheet-Walk\0055.png" />
+    <Content Include="res\SpriteSheet-Walk\0056.png" />
+    <Content Include="res\SpriteSheet-Walk\0057.png" />
+    <Content Include="res\SpriteSheet-Walk\0058.png" />
+    <Content Include="res\SpriteSheet-Walk\0059.png" />
+    <Content Include="res\SpriteSheet-Walk\0060.png" />
+    <Content Include="res\SpriteSheet-Walk\0061.png" />
+    <Content Include="res\SpriteSheet-Walk\0062.png" />
+    <Content Include="res\SpriteSheet-Walk\0063.png" />
+    <Content Include="res\SpriteSheet-Walk\0064.png" />
+    <Content Include="res\SpriteSheet-Walk\0065.png" />
+    <Content Include="res\SpriteSheet-Walk\0066.png" />
+    <Content Include="res\SpriteSheet-Walk\0067.png" />
+    <Content Include="res\SpriteSheet-Walk\0068.png" />
+    <Content Include="res\SpriteSheet-Walk\0069.png" />
+    <Content Include="res\SpriteSheet-Walk\0070.png" />
+    <Content Include="res\SpriteSheet-Walk\0071.png" />
+    <Content Include="res\SpriteSheet-Walk\0072.png" />
+    <Content Include="res\SpriteSheet-Walk\0073.png" />
+    <Content Include="res\SpriteSheet-Walk\0074.png" />
+    <Content Include="res\SpriteSheet-Walk\0075.png" />
+    <Content Include="res\SpriteSheet-Walk\0076.png" />
+    <Content Include="res\SpriteSheet-Walk\0077.png" />
+    <Content Include="res\SpriteSheet-Walk\0078.png" />
+    <Content Include="res\SpriteSheet-Walk\0079.png" />
+    <Content Include="res\SpriteSheet-Walk\0080.png" />
+    <Content Include="res\SpriteSheet-Walk\0081.png" />
+    <Content Include="res\SpriteSheet-Walk\0082.png" />
+    <Content Include="res\SpriteSheet-Walk\0083.png" />
+    <Content Include="res\SpriteSheet-Walk\0084.png" />
+    <Content Include="res\SpriteSheet-Walk\0085.png" />
+    <Content Include="res\SpriteSheet-Walk\0086.png" />
+    <Content Include="res\SpriteSheet-Walk\0087.png" />
+    <Content Include="res\SpriteSheet-Walk\0088.png" />
+    <Content Include="res\SpriteSheet-Walk\0089.png" />
+    <Content Include="res\SpriteSheet-Walk\0090.png" />
+    <Content Include="res\SpriteSheet-Walk\0091.png" />
+    <Content Include="res\SpriteSheet-Walk\0092.png" />
+    <Content Include="res\SpriteSheet-Walk\0093.png" />
+    <Content Include="res\SpriteSheet-Walk\0094.png" />
+    <Content Include="res\SpriteSheet-Walk\0095.png" />
+    <Content Include="res\SpriteSheet-Walk\0096.png" />
+    <Content Include="res\SpriteSheet-Walk\0097.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
