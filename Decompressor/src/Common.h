@@ -28,3 +28,34 @@ inline byte* ReadFile(const char* path, long* outSize = nullptr)
 	fclose(file);
 	return buffer;
 }
+
+#include <chrono>
+
+class Timer
+{
+private:
+	typedef std::chrono::high_resolution_clock HighResolutionClock;
+	typedef std::chrono::duration<float, std::milli> milliseconds_type;
+
+	std::chrono::time_point<HighResolutionClock> m_Start;
+public:
+	inline Timer()
+	{
+		Reset();
+	}
+
+	inline void Timer::Reset()
+	{
+		m_Start = HighResolutionClock::now();
+	}
+
+	inline float Timer::Elapsed()
+	{
+		return std::chrono::duration_cast<milliseconds_type>(HighResolutionClock::now() - m_Start).count() / 1000.0f;
+	}
+
+	inline float Timer::ElapsedMillis()
+	{
+		return Elapsed() * 1000.0f;
+	}
+};

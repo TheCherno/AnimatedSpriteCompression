@@ -1,41 +1,6 @@
 #include "Common.h"
-#include <Windows.h>
 
 #include "Decompressor.h"
-
-class Timer
-{
-private:
-	LARGE_INTEGER m_Start;
-	double m_Frequency;
-public:
-	Timer()
-	{
-		LARGE_INTEGER frequency;
-		QueryPerformanceFrequency(&frequency);
-		m_Frequency = 1.0 / frequency.QuadPart;
-
-		Reset();
-	}
-
-	void Reset()
-	{
-		QueryPerformanceCounter(&m_Start);
-	}
-
-	float Elapsed()
-	{
-		LARGE_INTEGER current;
-		QueryPerformanceCounter(&current);
-		LONGLONG cycles = current.QuadPart - m_Start.QuadPart;
-		return (float)(cycles * m_Frequency);
-	}
-
-	float ElapsedMillis()
-	{
-		return Elapsed() * 1000.0f;
-	}
-};
 
 unsigned char stbbuffer[1024 * 1024 * 10];
 unsigned char* stbtop = stbbuffer;
