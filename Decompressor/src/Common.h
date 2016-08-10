@@ -44,17 +44,17 @@ public:
 		Reset();
 	}
 
-	inline void Timer::Reset()
+	inline void Reset()
 	{
 		m_Start = HighResolutionClock::now();
 	}
 
-	inline float Timer::Elapsed()
+	inline float Elapsed()
 	{
 		return std::chrono::duration_cast<milliseconds_type>(HighResolutionClock::now() - m_Start).count() / 1000.0f;
 	}
 
-	inline float Timer::ElapsedMillis()
+	inline float ElapsedMillis()
 	{
 		return Elapsed() * 1000.0f;
 	}
