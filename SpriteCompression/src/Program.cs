@@ -9,7 +9,7 @@ namespace SpriteCompression
     {
         public enum Mode { COMPRESS, DECOMPRESS }
 
-        public Program(Mode mode, string input, string output = "", byte quality = 0)
+        public Program(Mode mode, string input, string output = "", byte quality = 0, int windowSize = 16)
         {
             if (mode == Mode.COMPRESS)
             {
@@ -26,7 +26,7 @@ namespace SpriteCompression
 
                 Console.WriteLine(" done.");
 
-                Compressor compressor = new Compressor(sprites, quality);
+                Compressor compressor = new Compressor(sprites, quality, windowSize);
                 byte[] buffer = compressor.Compress();
                 Console.WriteLine("Writing {0} bytes to {1}", buffer.Length, output);
                 FileStream stream = File.Create(output);
@@ -63,8 +63,12 @@ namespace SpriteCompression
             if (args.Length > 3)
                 quality = byte.Parse(args[3]);
 
+            int windowSize = 16;
+            if (args.Length > 4)
+                windowSize = int.Parse(args[4]);
+
             Mode mode = args[0] == "Decompress" ? Mode.DECOMPRESS : Mode.COMPRESS;
-            new Program(mode, args[1], output, quality);
+            new Program(mode, args[1], output, quality, windowSize);
         }
     }
 }

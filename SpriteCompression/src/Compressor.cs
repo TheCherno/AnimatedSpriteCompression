@@ -15,6 +15,7 @@ namespace SpriteCompression
         private byte m_CompressionMode = 0; // 0-1, 0 is uncompressed, 1 is default gzip
 
         private Sprite[] m_Sprites;
+        private int m_WindowSize;
 
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         struct Header
@@ -27,11 +28,12 @@ namespace SpriteCompression
             public ushort width, height;    // Size of animation
         }
 
-        public Compressor(Sprite[] sprites, byte quality)
+        public Compressor(Sprite[] sprites, byte quality, int windowSize = 16)
         {
             m_Sprites = sprites;
             QUALITY = quality;
             m_SimilarityThreshold = 10 * quality;
+            m_WindowSize = windowSize;
         }
 
         public byte[] Compress()
@@ -285,7 +287,7 @@ namespace SpriteCompression
                 else
                 {
                     copied++;
-                    if (skipped < 16)
+                    if (skipped < m_WindowSize)
                     {
                         copied += skipped;
                         skipped = 0;
