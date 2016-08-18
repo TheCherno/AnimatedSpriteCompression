@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="jni">
+      <UniqueIdentifier>553221e4-f24e-4650-8b66-9b861c4116c6</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res">
+      <UniqueIdentifier>63b4c268-7e9f-41b2-be67-902a59499e39</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src">
+      <UniqueIdentifier>a7b17329-621b-4c47-a5b5-117fb6f2feeb</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\values">
+      <UniqueIdentifier>b1512e7e-be8c-4f61-a7d8-8de8b092a181</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\com">
+      <UniqueIdentifier>67de3b0f-e3f7-4258-b588-aa7ef70ca6c3</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\com\thecherno">
+      <UniqueIdentifier>58abff5e-ae86-4c7e-8293-076e014e4292</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\com\thecherno\decompressor">
+      <UniqueIdentifier>b49f06e3-0b98-48c7-8cfd-c07bab913f66</UniqueIdentifier>
+    </Filter>
+    <Filter Include="res\layout">
+      <UniqueIdentifier>{faaab4a3-95ad-45f1-8e8d-2a700825513c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidBuild Include="AndroidManifest.xml" />
+    <AndroidBuild Include="res\values\strings.xml">
+      <Filter>res\values</Filter>
+    </AndroidBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="jni\com_thecherno_decompressor_Decompressor.cpp">
+      <Filter>jni</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <JCompile Include="src\com\example\hellojni\Decompressor.java">
+      <Filter>src\com\thecherno\decompressor</Filter>
+    </JCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="jni\com_thecherno_decompressor_Decompressor.h">
+      <Filter>jni</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="res\layout\main_layout.xml" />
+  </ItemGroup>
+</Project>

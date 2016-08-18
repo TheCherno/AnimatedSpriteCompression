@@ -4,30 +4,46 @@
 #include <string>
 #include <vector>
 
+#if defined(PLATFORM_ANDROID)
+// Android specific includes
+#include <android/asset_manager.h>
+#include <android/asset_manager_jni.h>
+#include <android/log.h>
+#endif
+
 typedef std::string String;
 
 typedef unsigned char byte;
 typedef unsigned short ushort;
 typedef unsigned int uint;
 
-inline byte* ReadFile(const char* path, long* outSize = nullptr)
-{
-	FILE* file = fopen(path, "rb");
-	if (!file)
-		return nullptr;
+#if defined(PLATFORM_WIN32)
+	#define LOG(string, ...) printf(string##"\n", __VA_ARGS__)
+#elif defined(PLATFORM_ANDROID)
+	#define LOG(...) ((void)__android_log_print(ANDROID_LOG_WARN, "DecompressionTest", __VA_ARGS__))
+#endif
 
-	fseek(file, 0, SEEK_END);
-	long size = ftell(file);
-	fseek(file, 0, SEEK_SET);
+#ifdef DEBUG
+	#if defined(PLATFORM_WIN32)
+		#define ASSERT(x) if (!(x)) { __debugbreak(); }
+	#elif defined(PLATFORM_ANDROID)
+		#define ASSERT(x) if (!(x)) { __asm__ volatile(".inst 0xd4200000"); }
+	#endif
+#else
+	#define ASSERT(x)
+#endif
 
-	if (outSize)
-		*outSize = size;
+#if defined(PLATFORM_WIN32)
 
-	byte* buffer = new byte[size];
-	fread(buffer, 1, size, file);
-	fclose(file);
-	return buffer;
-}
+void Init();
+
+#elif defined(PLATFORM_ANDROID)
+
+void Init(JNIEnv* env, jobject mainView);
+
+#endif
+
+byte* ReadFile(const String& path, size_t* outSize = nullptr);
 
 #include <chrono>
 

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+      android:layout_width="fill_parent"
+      android:layout_height="fill_parent"
+      android:paddingLeft="16dp"
+      android:paddingRight="16dp"
+      android:orientation="vertical"
+      android:background="@color/white" >
+  
+      <TextView android:id="@+id/labelTitle01"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="24dp"
+          android:gravity="left"
+          android:textColor="@color/black" />
+
+      <TextView android:id="@+id/labelSubtitle01"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="12dp"
+          android:gravity="left"
+          android:textColor="@color/black" />
+  
+      <TextView android:id="@+id/labelResult01"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"
+          android:gravity="right"
+          android:textColor="@color/black" />
+
+      <TextView android:id="@+id/labelTitle02"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="24dp"
+          android:gravity="left"
+          android:textColor="@color/black" />
+  
+      <TextView android:id="@+id/labelSubtitle02"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="12dp"
+          android:gravity="left"
+          android:textColor="@color/black" />
+  
+      <TextView android:id="@+id/labelResult02"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:textSize="20dp"
+          android:gravity="right"
+          android:textColor="@color/black" />
+  
+      <TextView
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1" />
+
+      <Button
+          android:id="@+id/buttonRefresh"
+          android:layout_width="100dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="right"
+          android:text="Refresh"
+          android:onClick="OnRefreshButtonClick" />
+  
+</LinearLayout>

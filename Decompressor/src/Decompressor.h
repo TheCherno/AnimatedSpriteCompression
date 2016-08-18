@@ -6,7 +6,7 @@ class Decompressor
 {
 private:
 	byte* m_Buffer;
-	long m_Size;
+	size_t m_Size;
 public:
 	Decompressor(const String& path);
 	Decompressor(byte* buffer, long size);
