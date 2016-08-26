@@ -36,18 +36,30 @@
     <ClCompile Include="jni\com_thecherno_decompressor_Decompressor.cpp">
       <Filter>jni</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <JCompile Include="src\com\example\hellojni\Decompressor.java">
-      <Filter>src\com\thecherno\decompressor</Filter>
-    </JCompile>
+    <ClCompile Include="jni\com_thecherno_decompressor_DisplayActivity_DisplayRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="jni\com_thecherno_decompressor_Decompressor.h">
       <Filter>jni</Filter>
     </ClInclude>
+    <ClInclude Include="jni\com_thecherno_decompressor_DisplayActivity_DisplayRenderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <Xml Include="res\layout\main_layout.xml" />
+    <JCompile Include="src\com\thecherno\decompressor\Decompressor.java">
+      <Filter>src\com\thecherno\decompressor</Filter>
+    </JCompile>
+    <JCompile Include="src\com\thecherno\decompressor\DisplayActivity.java">
+      <Filter>src\com\thecherno\decompressor</Filter>
+    </JCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="res\layout\main_layout.xml">
+      <Filter>res\layout</Filter>
+    </Xml>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\layout\display_layout.xml">
+      <Filter>res\layout</Filter>
+    </None>
   </ItemGroup>
 </Project>

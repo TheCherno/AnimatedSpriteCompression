@@ -61,5 +61,13 @@
           android:layout_gravity="right"
           android:text="Refresh"
           android:onClick="OnRefreshButtonClick" />
-  
+
+      <Button
+          android:id="@+id/buttonView"
+          android:layout_width="100dp"
+          android:layout_height="wrap_content"
+          android:layout_gravity="right"
+          android:text="View"
+          android:onClick="OnViewButtonClick" />
+
 </LinearLayout>

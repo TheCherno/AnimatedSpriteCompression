@@ -1,7 +1,8 @@
 #include "DecompressionTest.h"
 
-static const int s_IterationCount = 1000;
+using namespace fl;
 
+static const int s_IterationCount = 1000;
 
 DecompressionTest::DecompressionTest(const String& assetsDirectory)
 	: m_AssetsDirectory(assetsDirectory)
@@ -31,13 +32,17 @@ std::vector<DecompressionResult> DecompressionTest::RunWindowTests()
 	for (int i = 0; i < count; i++)
 	{
 		String path = m_AssetsDirectory + "WS/animation-" + files[i] + ".bin";
-		byte* buffer = ReadFile(path, &results[i].size);
-		ASSERT(buffer);
+		byte* buffer = fl::FileSystem::ReadFile(path, &results[i].size);
+		FL_ASSERT(buffer);
 		Decompressor decompressor(buffer, results[i].size);
+
+		// Decompress once to obtain data
+		results[i].animation = decompressor.Decompress2();
+
 		for (int i = 0; i < s_IterationCount; i++)
 		{
 			Timer timer;
-			decompressor.Decompress2();
+			decompressor.Decompress2Benchmark();
 			timeBuffer[i] = timer.ElapsedMillis();
 		}
 		results[i].time = GetMin(timeBuffer, s_IterationCount);

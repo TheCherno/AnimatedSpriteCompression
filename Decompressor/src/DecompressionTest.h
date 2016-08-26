@@ -7,6 +7,7 @@ struct DecompressionResult
 {
 	float time;
 	size_t size;
+	Animation* animation;
 };
 
 class DecompressionTest

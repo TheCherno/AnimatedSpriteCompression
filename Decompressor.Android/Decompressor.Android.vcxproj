@@ -23,19 +23,19 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+    <AndroidTargetAPI>android-23</AndroidTargetAPI>
     <NdkToolchainVersion>clang-3.6</NdkToolchainVersion>
     <AndroidStlType>llvm-libc++_static</AndroidStlType>
     <AndroidBuildSystem>GradleBuild</AndroidBuildSystem>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+    <AndroidTargetAPI>android-23</AndroidTargetAPI>
     <NdkToolchainVersion>clang-3.6</NdkToolchainVersion>
     <AndroidStlType>llvm-libc++_static</AndroidStlType>
     <AndroidBuildSystem>GradleBuild</AndroidBuildSystem>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Shipping|Tegra-Android'">
-    <AndroidTargetAPI>android-15</AndroidTargetAPI>
+    <AndroidTargetAPI>android-23</AndroidTargetAPI>
     <NdkToolchainVersion>clang-3.6</NdkToolchainVersion>
     <AndroidStlType>llvm-libc++_static</AndroidStlType>
     <AndroidBuildSystem>GradleBuild</AndroidBuildSystem>
@@ -60,11 +60,12 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
     <ClCompile>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Decompressor\src;</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PLATFORM_ANDROID;DEBUG;</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Decompressor\src;C:\NVPACK\android-ndk-r10e\platforms\android-21\arch-arm\usr\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>FL_PLATFORM_ANDROID;DEBUG;</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>android</AdditionalDependencies>
+      <AdditionalDependencies>android;GLESv2;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\NVPACK\android-ndk-r10e\platforms\android-21\arch-arm\usr\lib;</AdditionalLibraryDirectories>
     </Link>
     <AntBuild>
       <AssetsDirectories>assets</AssetsDirectories>
@@ -73,13 +74,14 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
     <ClCompile>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Decompressor\src;</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PLATFORM_ANDROID;</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Decompressor\src;C:\NVPACK\android-ndk-r10e\platforms\android-21\arch-arm\usr\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>FL_PLATFORM_ANDROID;</PreprocessorDefinitions>
       <OptimizationLevel>O2</OptimizationLevel>
       <StackProtector>false</StackProtector>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>android</AdditionalDependencies>
+      <AdditionalDependencies>android;GLESv2;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\NVPACK\android-ndk-r10e\platforms\android-21\arch-arm\usr\lib;</AdditionalLibraryDirectories>
     </Link>
     <AntBuild>
       <AssetsDirectories>assets</AssetsDirectories>
@@ -88,36 +90,48 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|Tegra-Android'">
     <ClCompile>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Decompressor\src;</AdditionalIncludeDirectories>
-      <PreprocessorDefinitions>PLATFORM_ANDROID;</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Decompressor\src;C:\NVPACK\android-ndk-r10e\platforms\android-21\arch-arm\usr\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>FL_PLATFORM_ANDROID;</PreprocessorDefinitions>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>android</AdditionalDependencies>
+      <AdditionalDependencies>android;GLESv2;</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\NVPACK\android-ndk-r10e\platforms\android-21\arch-arm\usr\lib;</AdditionalLibraryDirectories>
     </Link>
     <AntBuild>
       <AssetsDirectories>assets</AssetsDirectories>
     </AntBuild>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <AndroidBuild Include="AndroidManifest.xml" />
+    <AndroidBuild Include="AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </AndroidBuild>
     <AndroidBuild Include="res\values\strings.xml" />
   </ItemGroup>
   <ItemGroup>
-    <JCompile Include="src\com\example\hellojni\Decompressor.java" />
+    <JCompile Include="src\com\thecherno\decompressor\Decompressor.java" />
+    <JCompile Include="src\com\thecherno\decompressor\DisplayActivity.java" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="jni\com_thecherno_decompressor_Decompressor.cpp" />
+    <ClCompile Include="jni\com_thecherno_decompressor_DisplayActivity_DisplayRenderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="jni\com_thecherno_decompressor_Decompressor.h" />
+    <ClInclude Include="jni\com_thecherno_decompressor_DisplayActivity_DisplayRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Decompressor\Decompressor.vcxproj">
       <Project>{07e50ef7-c482-4fe6-a9f4-eaf5c9394157}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Flinty\Flinty\Flinty.vcxproj">
+      <Project>{ceb28ea3-4b44-4c0d-bfd4-948644dc0b78}</Project>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Xml Include="res\layout\main_layout.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\layout\display_layout.xml" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

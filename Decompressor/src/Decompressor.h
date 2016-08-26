@@ -1,6 +1,19 @@
 #pragma once
 
-#include "Common.h"
+#include <Flinty.h>
+
+struct Animation
+{
+	int width, height;
+	int frames;
+	std::vector<int*> data;
+
+	inline ~Animation()
+	{
+		for (int i = 0; i < data.size(); i++)
+			delete[] data[i];
+	}
+};
 
 class Decompressor
 {
@@ -12,6 +25,7 @@ public:
 	Decompressor(byte* buffer, long size);
 	~Decompressor();
 
-	byte* Decompress();
-	byte* Decompress2();
+	Animation* Decompress();
+	Animation* Decompress2();
+	void Decompress2Benchmark();
 };
