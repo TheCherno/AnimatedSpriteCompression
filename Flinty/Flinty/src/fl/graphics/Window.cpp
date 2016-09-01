@@ -6,6 +6,7 @@
 namespace fl {
 
 	static void GLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+	static void GLFWWindowSizeCallback(GLFWwindow* window, int width, int height);
 	static void EmptyFunction() {}
 	static void EmptyRenderFunction(Renderer&) {}
 	static void EmptyKeyCallback(int, int) {}
@@ -31,6 +32,7 @@ namespace fl {
 		GLFWwindow* window = m_GLFWWindow;
 		glfwSetWindowUserPointer(window, this);
 		glfwSetKeyCallback(window, GLFWKeyCallback);
+		glfwSetWindowSizeCallback(window, GLFWWindowSizeCallback);
 		glfwMakeContextCurrent(window);
 		m_Renderer = new Renderer();
 	}
@@ -87,5 +89,14 @@ namespace fl {
 			window->m_PressedKeys.insert(key);
 		else if (action == GLFW_RELEASE)
 			window->m_PressedKeys.erase(key);
+	}
+
+	static void GLFWWindowSizeCallback(GLFWwindow* glfwWindow, int width, int height)
+	{
+		Window* window = (Window*)glfwGetWindowUserPointer(glfwWindow);
+		window->m_Width = width;
+		window->m_Height = height;
+
+		GLCall(glViewport(0, 0, width, height));
 	}
 }

@@ -133,8 +133,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>PLATFORM_WIN32;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>FL_DEBUG;FL_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LZ4\src;$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
@@ -144,7 +144,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>FL_PLATFORM_ANDROID;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <CppLanguageStandard>c++11</CppLanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LZ4\src;$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -162,8 +162,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>PLATFORM_WIN32;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>FL_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LZ4\src;$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -181,7 +181,7 @@
       <CppLanguageStandard>c++11</CppLanguageStandard>
       <OptimizationLevel>O2</OptimizationLevel>
       <StackProtector>false</StackProtector>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\LZ4\src;$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -214,6 +214,9 @@
     <ClInclude Include="src\Decompressor.h" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Dependencies\LZ4\LZ4.vcxproj">
+      <Project>{9c7cf380-1ac0-488b-9034-60c659947ce7}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Flinty\Flinty\Flinty.vcxproj">
       <Project>{ceb28ea3-4b44-4c0d-bfd4-948644dc0b78}</Project>
     </ProjectReference>

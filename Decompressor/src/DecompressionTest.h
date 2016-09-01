@@ -19,6 +19,8 @@ public:
 
 	std::vector<DecompressionResult> RunAllTests();
 	std::vector<DecompressionResult> RunWindowTests();
+	std::vector<DecompressionResult> RunLZ4Tests();
+	std::vector<DecompressionResult> RunUncompressedTests();
 private:
 	float GetMin(float* array, int size);
 };

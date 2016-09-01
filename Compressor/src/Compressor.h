@@ -12,6 +12,7 @@ private:
 	byte m_CompressionMode;
 	std::vector<Sprite> m_Sprites;
 	int m_WindowSize;
+	uint m_DecompressionBound;
 public:
 	Compressor(const std::vector<Sprite>& sprites, byte quality, int windowSize = 16);
 	~Compressor();

@@ -123,6 +123,9 @@
     <ProjectReference Include="..\Decompressor\Decompressor.vcxproj">
       <Project>{07e50ef7-c482-4fe6-a9f4-eaf5c9394157}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\Dependencies\LZ4\LZ4.vcxproj">
+      <Project>{9c7cf380-1ac0-488b-9034-60c659947ce7}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\Flinty\Flinty\Flinty.vcxproj">
       <Project>{ceb28ea3-4b44-4c0d-bfd4-948644dc0b78}</Project>
     </ProjectReference>

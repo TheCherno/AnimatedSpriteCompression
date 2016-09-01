@@ -48,6 +48,7 @@ namespace fl {
 		void Clear();
 
 		friend void GLFWKeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+		friend void GLFWWindowSizeCallback(GLFWwindow* window, int width, int height);
 	};
 
 #define FL_KEY_RELEASED 0

@@ -2,7 +2,7 @@
 
 using namespace fl;
 
-static const int s_IterationCount = 1000;
+static const int s_IterationCount = 10;
 
 DecompressionTest::DecompressionTest(const String& assetsDirectory)
 	: m_AssetsDirectory(assetsDirectory)
@@ -13,7 +13,15 @@ DecompressionTest::DecompressionTest(const String& assetsDirectory)
 
 std::vector<DecompressionResult> DecompressionTest::RunAllTests()
 {
-	return RunWindowTests();
+	std::vector<DecompressionResult> uncompressedResults = RunUncompressedTests();
+	std::vector<DecompressionResult> lz4Results = RunLZ4Tests();
+	// std::vector<DecompressionResult> windowResults = RunWindowTests();
+
+	std::vector<DecompressionResult> results;
+	results.insert(results.end(), uncompressedResults.begin(), uncompressedResults.end());
+	results.insert(results.end(), lz4Results.begin(), lz4Results.end());
+	// results.insert(results.end(), windowResults.begin(), windowResults.end());
+	return results;
 }
 
 std::vector<DecompressionResult> DecompressionTest::RunWindowTests()
@@ -48,6 +56,42 @@ std::vector<DecompressionResult> DecompressionTest::RunWindowTests()
 		results[i].time = GetMin(timeBuffer, s_IterationCount);
 	}
 
+	return results;
+}
+
+std::vector<DecompressionResult> DecompressionTest::RunUncompressedTests()
+{
+	std::vector<DecompressionResult> results(1);
+	String path = m_AssetsDirectory + "animation-uncompressed.bin";
+	byte* buffer = fl::FileSystem::ReadFile(path, &results[0].size);
+	FL_ASSERT(buffer);
+	Decompressor decompressor(buffer, results[0].size);
+	float timeBuffer[s_IterationCount];
+	for (int i = 0; i < s_IterationCount; i++)
+	{
+		Timer timer;
+		decompressor.DecompressBenchmark();
+		timeBuffer[i] = timer.ElapsedMillis();
+	}
+	results[0].time = GetMin(timeBuffer, s_IterationCount);
+	return results;
+}
+
+std::vector<DecompressionResult> DecompressionTest::RunLZ4Tests()
+{
+	std::vector<DecompressionResult> results(1);
+	String path = m_AssetsDirectory + "animation-lz4.bin";
+	byte* buffer = fl::FileSystem::ReadFile(path, &results[0].size);
+	FL_ASSERT(buffer);
+	Decompressor decompressor(buffer, results[0].size);
+	float timeBuffer[s_IterationCount];
+	for (int i = 0; i < s_IterationCount; i++)
+	{
+		Timer timer;
+		decompressor.DecompressBenchmark();
+		timeBuffer[i] = timer.ElapsedMillis();
+	}
+	results[0].time = GetMin(timeBuffer, s_IterationCount);
 	return results;
 }
 

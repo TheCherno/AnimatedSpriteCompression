@@ -1,6 +1,7 @@
 #include "Common.h"
 
 #include "Decompressor.h"
+#include "DecompressionTest.h"
 
 #include "Flinty.h"
 #include <fl/gl.h>
@@ -24,7 +25,7 @@ static int s_Timer = 0;
 
 static void OnUpdate()
 {
-	std::cout << s_Window->GetFrameTime() << std::endl;
+	//std::cout << s_Window->GetFrameTime() << std::endl;
 
 	s_Timer++;
 	if (s_Animation && s_Timer % 2 == 0)
@@ -159,12 +160,20 @@ int main()
 
 #endif
 
+	DecompressionTest test;
+	std::vector<DecompressionResult> results = test.RunAllTests();
+	for (int i = 0; i < results.size(); i++)
+	{
+		FL_LOG("%d: %.4fms (%d bytes)", i, results[i].time, results[i].size);
+	}
+
+
 	Animation* anim;
 	{
 		float time = 0.0f;
-		Decompressor decompressor("spritesheet-walk.bin");
+		Decompressor decompressor("animation-lz4.bin");
 		Timer timer;
-		anim = decompressor.Decompress2();
+		anim = decompressor.Decompress();
 		time += timer.ElapsedMillis();
 		std::cout << time << "ms" << std::endl;
 	}

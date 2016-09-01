@@ -18,7 +18,7 @@ JNIEXPORT jfloatArray JNICALL Java_com_thecherno_decompressor_Decompressor_RunDe
 	
 	DecompressionTest tester;
 	std::vector<DecompressionResult> results = tester.RunAllTests();
-	UpdateAnimation(results[0].animation);
+	//UpdateAnimation(results[0].animation);
 	for (int i = 0; i < results.size(); i++)
 	{
 		data[i * 2 + 0] = (float)results[i].size;

@@ -19,6 +19,13 @@ public:
 	{
 		WriteInternal((const void*)data, sizeof(T) * count);
 	}
+
+	template<typename T>
+	void Write(const T* data, uint count, uint offset)
+	{
+		WriteInternal((const void*)data, sizeof(T) * count, offset);
+	}
 private:
 	void WriteInternal(const void* buffer, uint size);
+	void WriteInternal(const void* buffer, uint size, uint offset);
 };

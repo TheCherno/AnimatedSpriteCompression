@@ -42,7 +42,7 @@ public class Decompressor extends Activity
 		String result = Build.MODEL + "\n";
 		for (int i = 0; i < data.length; i += 2)
 		{
-			result += String.format("%.4f", data[i + 1]) + "," + BytesToString((long)data[i + 0]) + "\n";
+			result += i + ": " + String.format("%.4f", data[i + 1]) + "," + BytesToString((long)data[i + 0]) + "\n";
 		}
 		return result;
 	}

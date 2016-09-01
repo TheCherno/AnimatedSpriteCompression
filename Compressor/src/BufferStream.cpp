@@ -14,3 +14,8 @@ void BufferStream::WriteInternal(const void* buffer, uint size)
 {
 	m_Buffer.insert(m_Buffer.end(), (byte*)buffer, (byte*)buffer + size);
 }
+
+void BufferStream::WriteInternal(const void* buffer, uint size, uint offset)
+{
+	memcpy(&m_Buffer[offset], (byte*)buffer, size);
+}
