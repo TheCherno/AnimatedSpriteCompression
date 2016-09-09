@@ -164,7 +164,7 @@ int main()
 	std::vector<DecompressionResult> results = test.RunAllTests();
 	for (int i = 0; i < results.size(); i++)
 	{
-		FL_LOG("%d: %.4fms (%d bytes)", i, results[i].time, results[i].size);
+		FL_LOG("%s: %.4fms (%d bytes)", results[i].id.c_str(), results[i].time, results[i].size);
 	}
 
 

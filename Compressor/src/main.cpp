@@ -77,7 +77,7 @@ int main(int argc, char** argv)
 	if (argc > 4)
 		quality = (byte)atoi(argv[4]);
 
-	int windowSize = 16;
+	int windowSize = 8;
 	if (argc > 5)
 		windowSize = atoi(argv[5]);
 
@@ -94,6 +94,5 @@ int main(int argc, char** argv)
 	Compressor compressor(sprites, quality, windowSize);
 	compressor.Compress(output);
 
-	system("PAUSE");
 	return 0;
 }

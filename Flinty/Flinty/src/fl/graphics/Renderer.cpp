@@ -10,9 +10,17 @@
 
 namespace fl {
 
+	Renderer* Renderer::s_Instance = nullptr;
+
 	Renderer::Renderer()
 	{
 		Init();
+		s_Instance = this;
+	}
+
+	void Renderer::Submit(RenderCommand* command)
+	{
+		m_CommandBuffer.push(command);
 	}
 
 	void Renderer::SetClearColor(float r, float g, float b, float a)
@@ -23,6 +31,17 @@ namespace fl {
 	void Renderer::Clear()
 	{
 		GLCall(glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT));
+	}
+
+	void Renderer::Flush()
+	{
+		while (!m_CommandBuffer.empty())
+		{
+			RenderCommand* command = m_CommandBuffer.front();
+			command->OnExecute();
+			delete command;
+			m_CommandBuffer.pop();
+		}
 	}
 
 }

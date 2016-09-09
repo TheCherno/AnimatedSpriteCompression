@@ -15,16 +15,18 @@ std::vector<DecompressionResult> DecompressionTest::RunAllTests()
 {
 	std::vector<DecompressionResult> uncompressedResults = RunUncompressedTests();
 	std::vector<DecompressionResult> lz4Results = RunLZ4Tests();
-	// std::vector<DecompressionResult> windowResults = RunWindowTests();
+	std::vector<DecompressionResult> uncompressedWindowResults = RunWindowTests("uncompressed");
+	std::vector<DecompressionResult> lz4WindowResults = RunWindowTests("lz4");
 
 	std::vector<DecompressionResult> results;
 	results.insert(results.end(), uncompressedResults.begin(), uncompressedResults.end());
 	results.insert(results.end(), lz4Results.begin(), lz4Results.end());
-	// results.insert(results.end(), windowResults.begin(), windowResults.end());
+	results.insert(results.end(), uncompressedWindowResults.begin(), uncompressedWindowResults.end());
+	results.insert(results.end(), lz4WindowResults.begin(), lz4WindowResults.end());
 	return results;
 }
 
-std::vector<DecompressionResult> DecompressionTest::RunWindowTests()
+std::vector<DecompressionResult> DecompressionTest::RunWindowTests(const String& compression)
 {
 	const int count = 14;
 	const String files[count] = {
@@ -39,21 +41,19 @@ std::vector<DecompressionResult> DecompressionTest::RunWindowTests()
 	std::vector<DecompressionResult> results(count);
 	for (int i = 0; i < count; i++)
 	{
-		String path = m_AssetsDirectory + "WS/animation-" + files[i] + ".bin";
+		String path = m_AssetsDirectory + "WS/animation-" + compression + "-" + files[i] + ".bin";
 		byte* buffer = fl::FileSystem::ReadFile(path, &results[i].size);
 		FL_ASSERT(buffer);
 		Decompressor decompressor(buffer, results[i].size);
 
-		// Decompress once to obtain data
-		results[i].animation = decompressor.Decompress2();
-
 		for (int i = 0; i < s_IterationCount; i++)
 		{
 			Timer timer;
-			decompressor.Decompress2Benchmark();
+			decompressor.DecompressBenchmark();
 			timeBuffer[i] = timer.ElapsedMillis();
 		}
 		results[i].time = GetMin(timeBuffer, s_IterationCount);
+		results[i].id = path;
 	}
 
 	return results;
@@ -74,6 +74,7 @@ std::vector<DecompressionResult> DecompressionTest::RunUncompressedTests()
 		timeBuffer[i] = timer.ElapsedMillis();
 	}
 	results[0].time = GetMin(timeBuffer, s_IterationCount);
+	results[0].id = path;
 	return results;
 }
 
@@ -92,6 +93,7 @@ std::vector<DecompressionResult> DecompressionTest::RunLZ4Tests()
 		timeBuffer[i] = timer.ElapsedMillis();
 	}
 	results[0].time = GetMin(timeBuffer, s_IterationCount);
+	results[0].id = path;
 	return results;
 }
 

@@ -367,16 +367,17 @@ void Decompressor::Deserialize3Benchmark(byte* buffer, long fileSize)
 
 	int bpp = GetBPC(header.format);
 	int frame = 0;
-	while (buffer)
-	{
-		byte frameType = *(byte*)buffer++;
-		uint size = *(uint*)buffer;
-		buffer += 4;
 
-		int* pixels = (int*)s_StaticBuffer;
-		if (frameType == 0) // Keyframe
+	if (header.compression == 1) // LZ4, per frame
+	{
+		while (buffer)
 		{
-			if (header.compression == 1) // LZ4
+			byte frameType = *(byte*)buffer++;
+			uint size = *(uint*)buffer;
+			buffer += 4;
+
+			int* pixels = (int*)s_StaticBuffer;
+			if (frameType == 0) // Keyframe
 			{
 				uint decompressedSize = *(uint*)buffer;
 				buffer += 4;
@@ -385,16 +386,7 @@ void Decompressor::Deserialize3Benchmark(byte* buffer, long fileSize)
 				memcpy(pixels, data, decompressedSize);
 				buffer += size;
 			}
-			else
-			{
-				FL_ASSERT((header.width * header.height * bpp) == size);
-				memcpy(pixels, buffer, header.width * header.height * bpp);
-				buffer += size;
-			}
-		}
-		else if (frameType == 1) // Delta frame
-		{
-			if (header.compression == 1) // LZ4
+			else if (frameType == 1) // Delta frame
 			{
 				uint decompressedSize = *(uint*)buffer;
 				buffer += 4;
@@ -417,7 +409,27 @@ void Decompressor::Deserialize3Benchmark(byte* buffer, long fileSize)
 					currentPixel += skipcount + copycount;
 				}
 			}
-			else
+			frame++;
+			if (frame >= header.frames)
+				break;
+		}
+	}
+	else
+	{
+		while (buffer)
+		{
+			byte frameType = *(byte*)buffer++;
+			uint size = *(uint*)buffer;
+			buffer += 4;
+
+			int* pixels = (int*)s_StaticBuffer;
+			if (frameType == 0) // Keyframe
+			{
+				FL_ASSERT((header.width * header.height * bpp) == size);
+				memcpy(pixels, buffer, header.width * header.height * bpp);
+				buffer += size;
+			}
+			else if (frameType == 1) // Delta frame
 			{
 				int* currentPixel = pixels;
 				int* end = pixels + header.width * header.height;
@@ -431,10 +443,10 @@ void Decompressor::Deserialize3Benchmark(byte* buffer, long fileSize)
 					currentPixel += skipcount + copycount;
 				}
 			}
+			frame++;
+			if (frame >= header.frames)
+				break;
 		}
-		frame++;
-		if (frame >= header.frames)
-			break;
 	}
 }
 

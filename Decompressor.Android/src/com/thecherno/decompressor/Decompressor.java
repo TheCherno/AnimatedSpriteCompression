@@ -100,7 +100,7 @@ public class Decompressor extends Activity
 		m_TextViews[3].setText("animation2.bin");
 		m_TextViews[4].setText((int)data[2] + " bytes");
 		String result = "";
-		for (int i = 0; i < data.length; i += 2)
+		for (int i = 0; i < data.length && i < 12; i += 2)
 			result += String.format("%.4f", data[i + 1]) + " ms (" + BytesToString((long)data[i + 0]) + ")\n";
 		m_TextViews[5].setText(result);
 	}

@@ -5,6 +5,7 @@
 
 struct DecompressionResult
 {
+	String id;
 	float time;
 	size_t size;
 	Animation* animation;
@@ -18,7 +19,7 @@ public:
 	DecompressionTest(const String& assetsDirectory = "");
 
 	std::vector<DecompressionResult> RunAllTests();
-	std::vector<DecompressionResult> RunWindowTests();
+	std::vector<DecompressionResult> RunWindowTests(const String& compression);
 	std::vector<DecompressionResult> RunLZ4Tests();
 	std::vector<DecompressionResult> RunUncompressedTests();
 private:

@@ -42,23 +42,27 @@ static void OnRender(Renderer& renderer)
 
 void UpdateAnimation(Animation* animation)
 {
-	if (s_Animation)
-		delete s_Animation;
+	SUBMIT_RENDER_3(Animation*&, m_Animation, s_Animation,
+					Animation*, m_NewAnimation, animation,
+					uint&, m_TextureID, s_TextureID, { 
+		if (m_Animation)
+			delete m_Animation;
 
-	s_Animation = animation;
+		m_Animation = m_NewAnimation;
 
-	if (s_TextureID)
-		glDeleteTextures(1, &s_TextureID);
+		if (m_TextureID)
+			glDeleteTextures(1, &m_TextureID);
 
-	glGenTextures(1, &s_TextureID);
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, s_TextureID);
+		glGenTextures(1, &m_TextureID);
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, m_TextureID);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, animation->width, animation->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+ 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, m_NewAnimation->width, m_NewAnimation->height, 0, GL_RGBA, GL_UNSIGNED_BYTE, NULL);
+	});
 }
 
 JNIEXPORT void JNICALL Java_com_thecherno_decompressor_DisplayActivity_00024DisplayRenderer_OnInit(JNIEnv *, jclass)
@@ -131,6 +135,7 @@ JNIEXPORT void JNICALL Java_com_thecherno_decompressor_DisplayActivity_00024Disp
 	{
 		Timer frametime;
 		OnRender(*s_Renderer);
+		s_Renderer->Flush();
 		s_Frames++;
 		s_FrameTime = frametime.ElapsedMillis();
 	}

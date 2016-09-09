@@ -33,22 +33,43 @@ Compressor::~Compressor()
 void Compressor::Compress(const String& toFile)
 {
 	BufferStream stream;
-
 	WriteHeader(stream);
 	WriteKeyframe(stream, m_Sprites[0]);
+	uint deltaStartPos = stream.GetSize();
 	for (int i = 1; i < m_Sprites.size(); i++)
 	{
 		WriteDeltaFrame(stream, m_Sprites[i], (int*)m_Sprites[i - 1].pixels);
 		std::cout << "Compressed frame " << i << " - " << 0 << " bytes" << std::endl;
 	}
-
 	stream.Write(&m_DecompressionBound, 1, offsetof(Header, decompressionBound));
 
-	FILE* file = fopen(toFile.c_str(), "wb");
-	FL_ASSERT(file);
-	fwrite(stream.GetBuffer(), stream.GetSize(), 1, file);
-	FL_LOG("Wrote %d bytes", stream.GetSize());
-	fclose(file);
+	if (m_CompressionMode == 2) // Compress all delta frames together
+	{
+		const byte* deltaStart = stream.GetBuffer() + deltaStartPos;
+		const byte* end = stream.GetBuffer() + stream.GetSize();
+
+		uint size;
+		byte* data = ApplyEntropyCompression(deltaStart, end - deltaStart, &size);
+		BufferStream fileStream;
+		fileStream.Write(stream.GetBuffer(), deltaStart - stream.GetBuffer());
+		fileStream.Write(data, size);
+		uint bound = std::max(m_DecompressionBound, size);
+		fileStream.Write(&bound, 1, offsetof(Header, decompressionBound));
+
+		FILE* file = fopen(toFile.c_str(), "wb");
+		FL_ASSERT(file);
+		fwrite(fileStream.GetBuffer(), fileStream.GetSize(), 1, file);
+		FL_LOG("Wrote %d bytes", fileStream.GetSize());
+		fclose(file);
+	}
+	else
+	{
+		FILE* file = fopen(toFile.c_str(), "wb");
+		FL_ASSERT(file);
+		fwrite(stream.GetBuffer(), stream.GetSize(), 1, file);
+		FL_LOG("Wrote %d bytes", stream.GetSize());
+		fclose(file);
+	}
 }
 
 void Compressor::WriteHeader(BufferStream& stream)
@@ -146,7 +167,7 @@ void Compressor::WriteDeltaFrame(BufferStream& stream, const Sprite& frame, int*
 	const byte* buffer = packetStream.GetBuffer();
 	uint rawSize = packetStream.GetSize();
 	uint bufferSize = rawSize;
-	if (m_CompressionMode > 0)
+	if (m_CompressionMode == 1)
 	{
 		uint compressedSize;
 		buffer = ApplyEntropyCompression(buffer, rawSize, &compressedSize);
