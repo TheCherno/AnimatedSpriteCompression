@@ -13,20 +13,20 @@ DecompressionTest::DecompressionTest(const String& assetsDirectory)
 
 std::vector<DecompressionResult> DecompressionTest::RunAllTests()
 {
-	std::vector<DecompressionResult> uncompressedResults = RunUncompressedTests();
-	std::vector<DecompressionResult> lz4Results = RunLZ4Tests();
-	std::vector<DecompressionResult> uncompressedWindowResults = RunWindowTests("uncompressed");
-	std::vector<DecompressionResult> lz4WindowResults = RunWindowTests("lz4");
+	std::vector<DecompressionResult> uncompressedWindowResults256 = RunWindowTests("256", "uncompressed");
+	std::vector<DecompressionResult> lz4WindowResults256 = RunWindowTests("256", "lz4");
+	std::vector<DecompressionResult> uncompressedWindowResults512 = RunWindowTests("512", "uncompressed");
+	std::vector<DecompressionResult> lz4WindowResults512 = RunWindowTests("512", "lz4");
 
 	std::vector<DecompressionResult> results;
-	results.insert(results.end(), uncompressedResults.begin(), uncompressedResults.end());
-	results.insert(results.end(), lz4Results.begin(), lz4Results.end());
-	results.insert(results.end(), uncompressedWindowResults.begin(), uncompressedWindowResults.end());
-	results.insert(results.end(), lz4WindowResults.begin(), lz4WindowResults.end());
+	results.insert(results.end(), uncompressedWindowResults256.begin(), uncompressedWindowResults256.end());
+	results.insert(results.end(), lz4WindowResults256.begin(), lz4WindowResults256.end());
+	results.insert(results.end(), uncompressedWindowResults512.begin(), uncompressedWindowResults512.end());
+	results.insert(results.end(), lz4WindowResults512.begin(), lz4WindowResults512.end());
 	return results;
 }
 
-std::vector<DecompressionResult> DecompressionTest::RunWindowTests(const String& compression)
+std::vector<DecompressionResult> DecompressionTest::RunWindowTests(const String& size, const String& compression)
 {
 	const int count = 14;
 	const String files[count] = {
@@ -41,7 +41,7 @@ std::vector<DecompressionResult> DecompressionTest::RunWindowTests(const String&
 	std::vector<DecompressionResult> results(count);
 	for (int i = 0; i < count; i++)
 	{
-		String path = m_AssetsDirectory + "WS/animation-" + compression + "-" + files[i] + ".bin";
+		String path = m_AssetsDirectory + "WS/" + size + "/butterfly" + size + "-" + compression + "-" + files[i] + ".bin";
 		byte* buffer = fl::FileSystem::ReadFile(path, &results[i].size);
 		FL_ASSERT(buffer);
 		Decompressor decompressor(buffer, results[i].size);
@@ -62,7 +62,7 @@ std::vector<DecompressionResult> DecompressionTest::RunWindowTests(const String&
 std::vector<DecompressionResult> DecompressionTest::RunUncompressedTests()
 {
 	std::vector<DecompressionResult> results(1);
-	String path = m_AssetsDirectory + "animation-uncompressed.bin";
+	String path = m_AssetsDirectory + "butterfly512-uncompressed.bin";
 	byte* buffer = fl::FileSystem::ReadFile(path, &results[0].size);
 	FL_ASSERT(buffer);
 	Decompressor decompressor(buffer, results[0].size);
@@ -81,7 +81,7 @@ std::vector<DecompressionResult> DecompressionTest::RunUncompressedTests()
 std::vector<DecompressionResult> DecompressionTest::RunLZ4Tests()
 {
 	std::vector<DecompressionResult> results(1);
-	String path = m_AssetsDirectory + "animation-lz4.bin";
+	String path = m_AssetsDirectory + "butterfly512-lz4.bin";
 	byte* buffer = fl::FileSystem::ReadFile(path, &results[0].size);
 	FL_ASSERT(buffer);
 	Decompressor decompressor(buffer, results[0].size);

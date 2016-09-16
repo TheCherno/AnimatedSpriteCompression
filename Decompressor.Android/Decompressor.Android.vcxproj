@@ -23,19 +23,20 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
-    <AndroidTargetAPI>android-23</AndroidTargetAPI>
+    <AndroidTargetAPI>android-21</AndroidTargetAPI>
     <NdkToolchainVersion>clang-3.6</NdkToolchainVersion>
     <AndroidStlType>llvm-libc++_static</AndroidStlType>
     <AndroidBuildSystem>GradleBuild</AndroidBuildSystem>
+    <AndroidNativeAPI>UseTarget</AndroidNativeAPI>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
-    <AndroidTargetAPI>android-23</AndroidTargetAPI>
+    <AndroidTargetAPI>android-22</AndroidTargetAPI>
     <NdkToolchainVersion>clang-3.6</NdkToolchainVersion>
     <AndroidStlType>llvm-libc++_static</AndroidStlType>
     <AndroidBuildSystem>GradleBuild</AndroidBuildSystem>
   </PropertyGroup>
   <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Shipping|Tegra-Android'">
-    <AndroidTargetAPI>android-23</AndroidTargetAPI>
+    <AndroidTargetAPI>android-22</AndroidTargetAPI>
     <NdkToolchainVersion>clang-3.6</NdkToolchainVersion>
     <AndroidStlType>llvm-libc++_static</AndroidStlType>
     <AndroidBuildSystem>GradleBuild</AndroidBuildSystem>
@@ -48,10 +49,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Intermediates\$(ProjectName)</IntDir>
+    <FastDeploy>false</FastDeploy>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Intermediates\$(ProjectName)</IntDir>
+    <FastDeploy>false</FastDeploy>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Shipping|Tegra-Android'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
@@ -60,15 +63,17 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
     <ClCompile>
       <CppLanguageStandard>gnu++11</CppLanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Decompressor\src;C:\NVPACK\android-ndk-r10e\platforms\android-21\arch-arm\usr\include;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Decompressor\src;D:\NVPACK\android-ndk-r10e\platforms\android-21\arch-arm\usr\include</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>FL_PLATFORM_ANDROID;DEBUG;</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <AdditionalDependencies>android;GLESv2;</AdditionalDependencies>
-      <AdditionalLibraryDirectories>C:\NVPACK\android-ndk-r10e\platforms\android-21\arch-arm\usr\lib;</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\NVPACK\android-ndk-r10e\platforms\android-21\arch-arm\usr\lib;</AdditionalLibraryDirectories>
+      <EchoCommandLines>true</EchoCommandLines>
     </Link>
     <AntBuild>
       <AssetsDirectories>assets</AssetsDirectories>
+      <SkipAntStep>False</SkipAntStep>
     </AntBuild>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">

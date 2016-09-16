@@ -58,6 +58,12 @@ Animation* Decompressor::Decompress2()
 	return Deserialize2(m_Buffer, m_Size);
 }
 
+Animation* Decompressor::Decompress3()
+{
+	return Deserialize3(m_Buffer, m_Size);
+}
+
+
 void Decompressor::Decompress2Benchmark()
 {
 	byte* buffer = m_Buffer;

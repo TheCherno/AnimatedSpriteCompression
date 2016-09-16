@@ -28,7 +28,7 @@ namespace fl {
 		void SetClearColor(float r, float g, float b, float a);
 		void Flush();
 
-		inline static Renderer* GetInstance() { return s_Instance; }
+		inline static Renderer* GetInstance() { FL_ASSERT(s_Instance);  return s_Instance; }
 	};
 
 }

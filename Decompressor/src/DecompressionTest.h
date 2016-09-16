@@ -19,7 +19,7 @@ public:
 	DecompressionTest(const String& assetsDirectory = "");
 
 	std::vector<DecompressionResult> RunAllTests();
-	std::vector<DecompressionResult> RunWindowTests(const String& compression);
+	std::vector<DecompressionResult> RunWindowTests(const String& size, const String& compression);
 	std::vector<DecompressionResult> RunLZ4Tests();
 	std::vector<DecompressionResult> RunUncompressedTests();
 private:

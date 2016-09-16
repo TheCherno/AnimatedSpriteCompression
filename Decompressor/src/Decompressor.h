@@ -30,6 +30,7 @@ public:
 
 	Animation* Decompress1();
 	Animation* Decompress2();
+	Animation* Decompress3();
 	void Decompress2Benchmark();
 
 	Animation* Deserialize3(byte* buffer, long size);

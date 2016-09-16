@@ -19,7 +19,7 @@ static uint s_Updates = 0;
 static Timer s_Timer;
 static float s_SecondTimer = 0.0f;
 
-static Renderer* s_Renderer;
+Renderer* s_Renderer;
 
 static Animation* s_Animation = nullptr;
 static uint s_TextureID = 0;
@@ -67,7 +67,7 @@ void UpdateAnimation(Animation* animation)
 
 JNIEXPORT void JNICALL Java_com_thecherno_decompressor_DisplayActivity_00024DisplayRenderer_OnInit(JNIEnv *, jclass)
 {
-	s_Renderer = new Renderer();
+	Renderer::Init();
 
 	s_Shader = ShaderFactory::SimpleShader();
 	ShaderManager::Add(s_Shader);

@@ -18,6 +18,7 @@ public class Decompressor extends Activity
 	
 	private final static String TAG = "Decompressor";
 	private TextView[] m_TextViews;
+	private final static String SERVER = "https://thecherno.com/compression/dump.php";
 
 	@Override
     public void onCreate(Bundle savedInstanceState)
@@ -42,7 +43,7 @@ public class Decompressor extends Activity
 		String result = Build.MODEL + "\n";
 		for (int i = 0; i < data.length; i += 2)
 		{
-			result += i + ": " + String.format("%.4f", data[i + 1]) + "," + BytesToString((long)data[i + 0]) + "\n";
+			result += String.format("%.4f", data[i + 1]) + "," + BytesToString((long)data[i + 0]) + "\n";
 		}
 		return result;
 	}
@@ -91,7 +92,7 @@ public class Decompressor extends Activity
 		//   - filesize
 		//   - time
         float[] data = RunDecompression();
-		SendData("http://10.88.40.104/dump.php", data);
+		SendData(SERVER, data);
 
 		m_TextViews[0].setText("animation.bin");
 		m_TextViews[1].setText((int)data[0] + " bytes");

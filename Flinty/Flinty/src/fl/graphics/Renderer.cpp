@@ -14,7 +14,6 @@ namespace fl {
 
 	Renderer::Renderer()
 	{
-		Init();
 		s_Instance = this;
 	}
 
@@ -38,6 +37,7 @@ namespace fl {
 		while (!m_CommandBuffer.empty())
 		{
 			RenderCommand* command = m_CommandBuffer.front();
+			FL_ASSERT(command);
 			command->OnExecute();
 			delete command;
 			m_CommandBuffer.pop();
