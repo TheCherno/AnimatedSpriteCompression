@@ -14,6 +14,9 @@ public:
 	inline const byte* GetBuffer() const { return &m_Buffer[0]; }
 	inline uint GetSize() const { return m_Buffer.size(); }
 
+	void WriteBytes(const byte* data, uint size);
+	void WriteBytes(const byte* data, uint size, uint offset);
+
 	template<typename T>
 	void Write(const T* data, uint count = 1)
 	{
@@ -25,6 +28,7 @@ public:
 	{
 		WriteInternal((const void*)data, sizeof(T) * count, offset);
 	}
+
 private:
 	void WriteInternal(const void* buffer, uint size);
 	void WriteInternal(const void* buffer, uint size, uint offset);

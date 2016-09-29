@@ -2,48 +2,48 @@
 
 #include <algorithm>
 #include <lz4.h>
+#include <zstd.h>
 
-struct Header
-{
-	byte h0, h1;			// 08 08
-	byte v0, v1;			// Major/Minor version
-	byte quality;			// 0-5
-	byte compression;		// 0 = none, 1 = LZ4
-	byte format;			// 0 = ARGB
-	byte r0;				// Reserved
-	ushort frames;			// number of frames
-	ushort width, height;	// Size of animation
-	ushort padding;
-	uint decompressionBound;	// Size of largest decompression stream
-};
+static byte s_Version[2] = { 0x0, 0x4 }; // TODO: INCREMENT when making breaking changes!
 
-static byte s_Version[2] = { 0x0, 0x2 }; // TODO: INCREMENT when making breaking changes!
-
-Compressor::Compressor(const std::vector<Sprite>& sprites, byte quality, int windowSize)
-	: m_Sprites(sprites), m_Quality(quality), m_WindowSize(windowSize), m_DecompressionBound(0)
+Compressor::Compressor(const std::vector<Sprite>& sprites, const Metadata& metadata, byte quality, Header::CompressionType compressionType, int windowSize)
+	: m_Sprites(sprites), m_Metadata(metadata), m_Quality(quality), m_CompressionMode(compressionType), m_WindowSize(windowSize), m_DecompressionBound(0)
 {
 	m_SimilarityThreshold = 10 * quality;
-	m_CompressionMode = 1;
 }
 
 Compressor::~Compressor()
 {
 }
 
+// TODO: Create animation start frame table to avoid this search
+bool Compressor::IsAnimation(ushort index)
+{
+	for (int i = 0; i < m_Metadata.animations.size(); i++)
+	{
+		if (m_Metadata.animations[i].startFrame == index)
+			return true;
+	}
+	return false;
+}
+
 void Compressor::Compress(const String& toFile)
 {
 	BufferStream stream;
 	WriteHeader(stream);
-	WriteKeyframe(stream, m_Sprites[0]);
+	WriteKeyframe(stream, m_Sprites[0], 0);
 	uint deltaStartPos = stream.GetSize();
 	for (int i = 1; i < m_Sprites.size(); i++)
 	{
-		WriteDeltaFrame(stream, m_Sprites[i], (int*)m_Sprites[i - 1].pixels);
+		if (IsAnimation(i))
+			WriteKeyframe(stream, m_Sprites[i], i);
+		else
+			WriteDeltaFrame(stream, m_Sprites[i], (int*)m_Sprites[i - 1].pixels);
 		std::cout << "Compressed frame " << i << " - " << 0 << " bytes" << std::endl;
 	}
 	stream.Write(&m_DecompressionBound, 1, offsetof(Header, decompressionBound));
 
-	if (m_CompressionMode == 2) // Compress all delta frames together
+	if (m_CompressionMode == (Header::CompressionType)20) // Compress all delta frames together
 	{
 		const byte* deltaStart = stream.GetBuffer() + deltaStartPos;
 		const byte* end = stream.GetBuffer() + stream.GetSize();
@@ -81,7 +81,7 @@ void Compressor::WriteHeader(BufferStream& stream)
 	header.v1 = s_Version[1];
 	header.quality = m_Quality;
 	header.compression = m_CompressionMode;
-	header.format = 0;
+	header.format = Header::Format::ARGB;
 	header.r0 = 0;
 	header.frames = (ushort)m_Sprites.size();
 	header.width = (ushort)m_Sprites[0].width;
@@ -89,24 +89,78 @@ void Compressor::WriteHeader(BufferStream& stream)
 	header.padding = 0;
 	header.decompressionBound = 0; // To be set later
 
-	stream.Write(&header);
+	stream.WriteBytes((const byte*)&header, 20);
+
+	// Event Table
+	const std::vector<Metadata::Event>& events = m_Metadata.events;
+	header.eventCount = events.size();
+	header.events = new Header::Event[header.eventCount];
+	for (ushort i = 0; i < header.eventCount; i++)
+	{
+		header.events[i].eventNameLength = events[i].name.size();
+		header.events[i].eventName = (char*)events[i].name.c_str();
+		header.events[i].startFrame = events[i].startFrame;
+		header.events[i].endFrame = events[i].endFrame;
+	}
+
+	stream.Write(&header.eventCount);
+	for (ushort i = 0; i < header.eventCount; i++)
+	{
+		stream.Write(&header.events[i].eventNameLength);
+		stream.Write(header.events[i].eventName, header.events[i].eventNameLength);
+		stream.Write(&header.events[i].startFrame);
+		stream.Write(&header.events[i].endFrame);
+	}
+
+	// Animation Table
+	const std::vector<Metadata::Animation>& animations = m_Metadata.animations;
+	header.animationCount = animations.size();
+	header.animations = new Header::Animation[header.animationCount];
+	for (ushort i = 0; i < header.animationCount; i++)
+	{
+		header.animations[i].animationNameLength = animations[i].name.size();
+		header.animations[i].animationName = (char*)animations[i].name.c_str();
+		header.animations[i].startFrameIndex = animations[i].startFrame;
+		header.animations[i].startFrameOffset = 0x00; // set later
+		header.animations[i].endFrameIndex = animations[i].endFrame;
+		header.animations[i].mode = animations[i].mode;
+	}
+
+	stream.Write(&header.animationCount);
+	for (ushort i = 0; i < header.animationCount; i++)
+	{
+		stream.Write(&header.animations[i].animationNameLength);
+		stream.Write(header.animations[i].animationName, header.animations[i].animationNameLength);
+		m_AnimationOffsets[header.animations[i].startFrameIndex] = stream.GetSize();
+		stream.Write(&header.animations[i].startFrameOffset);
+		stream.Write(&header.animations[i].startFrameIndex);
+		stream.Write(&header.animations[i].endFrameIndex);
+		stream.Write(&header.animations[i].mode);
+	}
 }
 
-void Compressor::WriteKeyframe(BufferStream& stream, const Sprite& sprite)
+void Compressor::WriteKeyframe(BufferStream& stream, const Sprite& sprite, ushort index)
 {
+	if (m_AnimationOffsets.find(index) != m_AnimationOffsets.end())
+	{
+		uint offset = stream.GetSize();
+		stream.Write(&offset, 1, m_AnimationOffsets[index]);
+	}
+
 	byte type = 0; // keyframe
 	stream.Write(&type);
 
 	byte* pixels = sprite.pixels;
 	uint rawSize = sprite.width * sprite.height * 4; // RGBA - 4 bpp
 	uint bufferSize = rawSize;
-	if (m_CompressionMode > 0)
+	if ((byte)m_CompressionMode > 0)
 	{
 		uint compressedSize;
 		pixels = ApplyEntropyCompression(pixels, rawSize, &compressedSize);
 		stream.Write(&compressedSize);
 		bufferSize = compressedSize;
 	}
+	
 	stream.Write(&rawSize);
 	stream.Write(pixels, bufferSize);
 
@@ -167,7 +221,7 @@ void Compressor::WriteDeltaFrame(BufferStream& stream, const Sprite& frame, int*
 	const byte* buffer = packetStream.GetBuffer();
 	uint rawSize = packetStream.GetSize();
 	uint bufferSize = rawSize;
-	if (m_CompressionMode == 1)
+	if ((byte)m_CompressionMode > 0)
 	{
 		uint compressedSize;
 		buffer = ApplyEntropyCompression(buffer, rawSize, &compressedSize);
@@ -189,14 +243,27 @@ void Compressor::EmitPacket(BufferStream& stream, int* pixels, int cursor, ushor
 
 byte* Compressor::ApplyEntropyCompression(const byte* buffer, uint size, uint* outSize)
 {
-	int maxCompressedSize = LZ4_compressBound(size);
-	byte* dst = new byte[maxCompressedSize];
-	int bytes = LZ4_compress_default((const char*)buffer, (char*)dst, size, maxCompressedSize);
+	byte* dst = nullptr;
+	int bytes = 0;
+	if (m_CompressionMode == Header::CompressionType::LZ4)
+	{
+		int maxCompressedSize = LZ4_compressBound(size);
+		dst = new byte[maxCompressedSize];
+		bytes = LZ4_compress_default((const char*)buffer, (char*)dst, size, maxCompressedSize);
+	}
+	else if (m_CompressionMode == Header::CompressionType::ZSTD)
+	{
+		int maxCompressedSize = ZSTD_compressBound(size);
+		dst = new byte[maxCompressedSize];
+		bytes = ZSTD_compress(dst, maxCompressedSize, buffer, size, 1);
+	}
+
 	if (outSize)
 		*outSize = bytes;
 	byte* result = new byte[bytes];
 	memcpy(result, dst, bytes);
 	delete[] dst;
+
 	return result;
 }
 

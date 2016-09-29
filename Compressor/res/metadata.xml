@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Metadata>
+	<Events>
+		<Event name="ExampleEvent">
+			<StartFrame>20</StartFrame>
+			<EndFrame>24</EndFrame>
+		</Event>
+	</Events>
+	<Animations>
+		<Animation name="ExampleAnimation">
+			<StartFrame>50</StartFrame>
+			<EndFrame>80</EndFrame>
+			<Mode>3</Mode>
+		</Animation>
+		<Animation name="SecondAnimation">
+			<StartFrame>4</StartFrame>
+			<EndFrame>18</EndFrame>
+			<Mode>1</Mode>
+		</Animation>
+	</Animations>
+</Metadata>

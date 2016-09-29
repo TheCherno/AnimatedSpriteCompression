@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Config>
+	<Mode>Compress</Mode>
+	<Compressor>
+		<Input>res/Butterfly</Input>
+		<Output>output/butterfly512-zstd.bin</Output>
+		<Compression>2</Compression>
+		<WindowSize>16</WindowSize>
+	</Compressor>
+</Config>

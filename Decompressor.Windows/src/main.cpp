@@ -160,21 +160,30 @@ int main()
 
 #endif
 
-	DecompressionTest test;
+	/*DecompressionTest test;
 	std::vector<DecompressionResult> results = test.RunAllTests();
 	for (int i = 0; i < results.size(); i++)
 	{
 		FL_LOG("%s: %.4fms (%d bytes)", results[i].id.c_str(), results[i].time, results[i].size);
-	}
+	}*/
 
 
 	Animation* anim;
 	{
 		float time = 0.0f;
-		Decompressor decompressor("animation-lz4.bin");
+		Decompressor decompressor("butterfly512-lz4.bin");
 		Timer timer;
 		anim = decompressor.Decompress();
 		time += timer.ElapsedMillis();
+		std::cout << time << "ms" << std::endl;
+	}
+	{
+		float time = 0.0f;
+		Decompressor decompressor("new.bin");
+		Timer timer;
+		decompressor.Decompress();
+		time += timer.ElapsedMillis();
+
 		std::cout << time << "ms" << std::endl;
 	}
 

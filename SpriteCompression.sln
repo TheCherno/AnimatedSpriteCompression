@@ -23,6 +23,10 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LZ4", "Dependencies\LZ4\LZ4
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Compressor", "Compressor\Compressor.vcxproj", "{C83B9DE2-50D7-4A26-8252-156DDBB1DCF1}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zstd", "Dependencies\zstd\zstd.vcxproj", "{01947DB5-0F7D-47EC-AE58-D445A35764A7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utils", "Utils", "{19198AF1-65AD-40A6-863C-8676441E5B11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -204,6 +208,28 @@ Global
 		{C83B9DE2-50D7-4A26-8252-156DDBB1DCF1}.Shipping|x64.Build.0 = Release|x64
 		{C83B9DE2-50D7-4A26-8252-156DDBB1DCF1}.Shipping|x86.ActiveCfg = Release|Win32
 		{C83B9DE2-50D7-4A26-8252-156DDBB1DCF1}.Shipping|x86.Build.0 = Release|Win32
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Debug|Tegra-Android.ActiveCfg = Debug|Tegra-Android
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Debug|Tegra-Android.Build.0 = Debug|Tegra-Android
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Debug|x64.ActiveCfg = Debug|x64
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Debug|x64.Build.0 = Debug|x64
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Debug|x86.ActiveCfg = Debug|Win32
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Debug|x86.Build.0 = Debug|Win32
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Release|Any CPU.ActiveCfg = Release|Win32
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Release|Tegra-Android.ActiveCfg = Release|Tegra-Android
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Release|Tegra-Android.Build.0 = Release|Tegra-Android
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Release|x64.ActiveCfg = Release|x64
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Release|x64.Build.0 = Release|x64
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Release|x86.ActiveCfg = Release|Win32
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Release|x86.Build.0 = Release|Win32
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Shipping|Any CPU.ActiveCfg = Release|x64
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Shipping|Any CPU.Build.0 = Release|x64
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Shipping|Tegra-Android.ActiveCfg = Release|x64
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Shipping|Tegra-Android.Build.0 = Release|x64
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Shipping|x64.ActiveCfg = Release|x64
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Shipping|x64.Build.0 = Release|x64
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Shipping|x86.ActiveCfg = Release|Win32
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7}.Shipping|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -212,5 +238,6 @@ Global
 		{6E0DEEF6-F4C2-4B7E-A2FE-BB9BAE5EC8D1} = {4A32ADF3-FF8A-4931-B832-1C033E2AE435}
 		{CEB28EA3-4B44-4C0D-BFD4-948644DC0B78} = {4A32ADF3-FF8A-4931-B832-1C033E2AE435}
 		{9C7CF380-1AC0-488B-9034-60C659947CE7} = {22981CDA-48D3-4244-86D2-8857E89C7FF6}
+		{01947DB5-0F7D-47EC-AE58-D445A35764A7} = {22981CDA-48D3-4244-86D2-8857E89C7FF6}
 	EndGlobalSection
 EndGlobal

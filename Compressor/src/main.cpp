@@ -9,7 +9,7 @@
 
 enum class Mode
 {
-	DECOMPRESS, COMPRESS
+	NONE, DECOMPRESS, COMPRESS, CONFIG
 };
 
 static std::vector<String> GetAllFiles(String path, const String& mask)
@@ -69,21 +69,105 @@ int main(int argc, char** argv)
 		return 1;
 	}
 
-	String output = "";
-	if (argc > 3)
-		output = String(argv[3]);
+	Mode mode = Mode::NONE;
+	String m = argv[1];
+	if (m == "decompress")
+		mode = Mode::DECOMPRESS;
+	else if (m == "compress")
+		mode = Mode::COMPRESS;
+	else if (m == "-f")
+		mode = Mode::CONFIG;
 
+	Metadata metadata;
+	bool hasMetadata = false;
+
+	FL_ASSERT(mode != Mode::NONE);
+	// Defaults
+	String input, output;
+	byte compression = 0;
 	byte quality = 0;
-	if (argc > 4)
-		quality = (byte)atoi(argv[4]);
-
 	int windowSize = 8;
-	if (argc > 5)
-		windowSize = atoi(argv[5]);
+	if (mode == Mode::CONFIG)
+	{
+		String file = argv[2];
 
+		fl::XMLDocument document(file);
+		fl::XMLNode* rootNode = document.FindNode("Config");
+		FL_ASSERT(rootNode);
+		fl::XMLNode* modeNode = rootNode->FindChild("Mode");
+		bool compress = false;
+		if (modeNode)
+			compress = String(modeNode->value) == "Compress";
 
-	Mode mode = argv[1] == "Decompress" ? Mode::DECOMPRESS : Mode::COMPRESS;
-	std::vector<String> files = GetAllFiles(argv[2], "*");
+		if (compress)
+		{
+			fl::XMLNode* settingsNode = rootNode->FindChild("Compressor");
+			if (settingsNode)
+			{
+				fl::XMLNode* inputNode = settingsNode->FindChild("Input");
+				if (inputNode)
+					input = inputNode->value;
+				fl::XMLNode* outputNode = settingsNode->FindChild("Output");
+				if (outputNode)
+					output = outputNode->value;
+				fl::XMLNode* qualityNode = settingsNode->FindChild("Quality");
+				if (qualityNode)
+					quality = atoi(qualityNode->value.c_str());
+				fl::XMLNode* compressionNode = settingsNode->FindChild("Compression");
+				if (compressionNode)
+					compression = atoi(compressionNode->value.c_str());
+				fl::XMLNode* windowSizeNode = settingsNode->FindChild("WindowSize");
+				if (windowSizeNode)
+					windowSize = atoi(windowSizeNode->value.c_str());
+			}
+		}
+	}
+	else
+	{
+		input = String(argv[2]);
+		if (argc > 3)
+			output = String(argv[3]);
+
+		if (argc > 4)
+			quality = (byte)atoi(argv[4]);
+
+		if (argc > 5)
+			compression = atoi(argv[5]);
+
+		if (argc > 6)
+			windowSize = atoi(argv[6]);
+
+		if (argc > 7)
+		{
+			String metadataFile = argv[7];
+
+			fl::XMLDocument document(metadataFile);
+			fl::XMLNode* rootNode = document.FindNode("Metadata");
+			FL_ASSERT(rootNode);
+
+			for (fl::XMLNode& e : rootNode->FindChild("Events")->children)
+			{
+				Metadata::Event ev;
+				ev.name = e.FindAttribute("name")->value;
+				ev.startFrame = atoi(e.FindChild("StartFrame")->value.c_str());
+				ev.endFrame = atoi(e.FindChild("EndFrame")->value.c_str());
+				metadata.events.push_back(ev);
+			}
+
+			for (fl::XMLNode& a : rootNode->FindChild("Animations")->children)
+			{
+				Metadata::Animation anim;
+				anim.name = a.FindAttribute("name")->value;
+				anim.startFrame = atoi(a.FindChild("StartFrame")->value.c_str());
+				anim.endFrame = atoi(a.FindChild("EndFrame")->value.c_str());
+				anim.mode = (Header::AnimationMode)atoi(a.FindChild("Mode")->value.c_str());
+				metadata.animations.push_back(anim);
+			}
+			hasMetadata = true;
+		}
+	}
+
+	std::vector<String> files = GetAllFiles(input, "*");
 
 	std::cout << "Reading " << files.size() << " images... ";
 	std::vector<Sprite> sprites;
@@ -91,7 +175,7 @@ int main(int argc, char** argv)
 		sprites.push_back(Sprite(files[i]));
 	std::cout << "Done." << std::endl;
 
-	Compressor compressor(sprites, quality, windowSize);
+	Compressor compressor(sprites, metadata, quality, (Header::CompressionType)compression, windowSize);
 	compressor.Compress(output);
 
 	return 0;

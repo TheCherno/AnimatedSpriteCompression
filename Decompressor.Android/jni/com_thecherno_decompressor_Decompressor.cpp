@@ -14,7 +14,7 @@ JNIEXPORT jfloatArray JNICALL Java_com_thecherno_decompressor_Decompressor_RunDe
 	DecompressionTest tester;
 	std::vector<DecompressionResult> results = tester.RunAllTests();
 
-	Decompressor d("butterfly512-uncompressed.bin");
+	Decompressor d("WS/512/butterfly512-uncompressed-ws16.bin");
 	UpdateAnimation(d.Decompress3());
 
 	uint count = results.size() * 2;

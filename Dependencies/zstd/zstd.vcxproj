@@ -30,8 +30,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{07E50EF7-C482-4FE6-A9F4-EAF5C9394157}</ProjectGuid>
-    <RootNamespace>Decompressor</RootNamespace>
+    <ProjectGuid>{01947DB5-0F7D-47EC-AE58-D445A35764A7}</ProjectGuid>
+    <RootNamespace>zstd</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -46,8 +46,10 @@
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v140</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
+    <AndroidTargetAPI>android-23</AndroidTargetAPI>
     <NdkToolchainVersion>clang-3.6</NdkToolchainVersion>
     <AndroidStlType>llvm-libc++_static</AndroidStlType>
+    <AndroidNativeAPI>UseTarget</AndroidNativeAPI>
     <AndroidNativeAPI>UseTarget</AndroidNativeAPI>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -63,8 +65,10 @@
     <PlatformToolset>v140</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
+    <AndroidTargetAPI>android-23</AndroidTargetAPI>
     <NdkToolchainVersion>clang-3.6</NdkToolchainVersion>
     <AndroidStlType>llvm-libc++_static</AndroidStlType>
+    <AndroidNativeAPI>UseTarget</AndroidNativeAPI>
     <AndroidNativeAPI>UseTarget</AndroidNativeAPI>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -81,8 +85,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
-  <ImportGroup Label="ExtensionSettings">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionSettings"></ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -102,16 +105,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <ImportGroup Label="Shared">
-  </ImportGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Intermediates\$(ProjectName)</IntDir>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
-    <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
-    <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Intermediates\$(ProjectName)</IntDir>
-  </PropertyGroup>
+  <ImportGroup Label="Shared"></ImportGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Intermediates\$(ProjectName)</IntDir>
@@ -120,11 +114,11 @@
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Intermediates\$(ProjectName)</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Intermediates\$(ProjectName)</IntDir>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
     <OutDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\$(Platform)\Intermediates\$(ProjectName)</IntDir>
   </PropertyGroup>
@@ -133,8 +127,8 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>FL_DEBUG;FL_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\zstd\src;$(SolutionDir)Dependencies\LZ4\src;$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;$(SolutionDir)Compressor\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src/common;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ZSTD_LEGACY_SUPPORT = 1;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Tegra-Android'">
@@ -142,9 +136,9 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>FL_PLATFORM_ANDROID;DEBUG;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src/common;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <CppLanguageStandard>c++11</CppLanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\zstd\src;$(SolutionDir)Dependencies\LZ4\src;$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;$(SolutionDir)Compressor\src</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -152,7 +146,6 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -162,8 +155,8 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>FL_PLATFORM_WINDOWS;_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\zstd\src;$(SolutionDir)Dependencies\LZ4\src;$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;$(SolutionDir)Compressor\src;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;src/common;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>ZSTD_LEGACY_SUPPORT = 1;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -177,11 +170,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>FL_PLATFORM_ANDROID;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;src/common;</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <CppLanguageStandard>c++11</CppLanguageStandard>
-      <OptimizationLevel>O2</OptimizationLevel>
-      <StackProtector>false</StackProtector>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\zstd\src;$(SolutionDir)Dependencies\LZ4\src;$(SolutionDir)Flinty\Flinty\src;$(SolutionDir)Dependencies\STB\include;$(SolutionDir)Compressor\src</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -196,7 +187,6 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_MBCS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -204,27 +194,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\Common.cpp" />
-    <ClCompile Include="src\DecompressionTest.cpp" />
-    <ClCompile Include="src\Decompressor.cpp" />
+    <ClInclude Include="src\common\bitstream.h" />
+    <ClInclude Include="src\common\error_private.h" />
+    <ClInclude Include="src\common\error_public.h" />
+    <ClInclude Include="src\common\fse.h" />
+    <ClInclude Include="src\common\huf.h" />
+    <ClInclude Include="src\common\mem.h" />
+    <ClInclude Include="src\common\xxhash.h" />
+    <ClInclude Include="src\common\zbuff.h" />
+    <ClInclude Include="src\common\zstd_internal.h" />
+    <ClInclude Include="src\compress\zstd_opt.h" />
+    <ClInclude Include="src\zstd.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Common.h" />
-    <ClInclude Include="src\DecompressionTest.h" />
-    <ClInclude Include="src\Decompressor.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Dependencies\LZ4\LZ4.vcxproj">
-      <Project>{9c7cf380-1ac0-488b-9034-60c659947ce7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Dependencies\zstd\zstd.vcxproj">
-      <Project>{01947db5-0f7d-47ec-ae58-d445a35764a7}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Flinty\Flinty\Flinty.vcxproj">
-      <Project>{ceb28ea3-4b44-4c0d-bfd4-948644dc0b78}</Project>
-    </ProjectReference>
+    <ClCompile Include="src\common\entropy_common.c" />
+    <ClCompile Include="src\common\fse_decompress.c" />
+    <ClCompile Include="src\common\xxhash.c" />
+    <ClCompile Include="src\common\zstd_common.c" />
+    <ClCompile Include="src\compress\fse_compress.c" />
+    <ClCompile Include="src\compress\huf_compress.c" />
+    <ClCompile Include="src\compress\zbuff_compress.c" />
+    <ClCompile Include="src\compress\zstd_compress.c" />
+    <ClCompile Include="src\decompress\huf_decompress.c" />
+    <ClCompile Include="src\decompress\zbuff_decompress.c" />
+    <ClCompile Include="src\decompress\zstd_decompress.c" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets"></ImportGroup>
 </Project>

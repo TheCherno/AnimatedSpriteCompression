@@ -253,6 +253,11 @@
     <ClInclude Include="src\fl\system\FileSystem.h" />
     <ClInclude Include="src\fl\system\Timer.h" />
     <ClInclude Include="src\fl\Types.h" />
+    <ClInclude Include="src\fl\xml\rapidxml\rapidxml.hpp" />
+    <ClInclude Include="src\fl\xml\rapidxml\rapidxml_iterators.hpp" />
+    <ClInclude Include="src\fl\xml\rapidxml\rapidxml_print.hpp" />
+    <ClInclude Include="src\fl\xml\rapidxml\rapidxml_utils.hpp" />
+    <ClInclude Include="src\fl\xml\XMLDocument.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\fl\Core.cpp" />
@@ -294,6 +299,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Tegra-Android'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="src\fl\String.cpp" />
+    <ClCompile Include="src\fl\xml\XMLDocument.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Dependencies\GLEW\GLEW.vcxproj">

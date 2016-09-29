@@ -9,3 +9,5 @@
 
 #include <fl/system/FileSystem.h>
 #include <fl/system/Timer.h>
+
+#include <fl/xml/XMLDocument.h>

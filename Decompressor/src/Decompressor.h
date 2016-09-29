@@ -31,10 +31,15 @@ public:
 	Animation* Decompress1();
 	Animation* Decompress2();
 	Animation* Decompress3();
+	Animation* Decompress4();
 	void Decompress2Benchmark();
 
 	Animation* Deserialize3(byte* buffer, long size);
 	void Deserialize3Benchmark(byte* buffer, long size);
+
+	Animation* Deserialize4(byte* buffer, long size);
+	void Deserialize4Benchmark(byte* buffer, long size);
 private:
 	byte* DecompressLZ4(const byte* buffer, uint size, uint decompressedSize);
+	byte* DecompressZSTD(const byte* buffer, uint size, uint decompressedSize);
 };

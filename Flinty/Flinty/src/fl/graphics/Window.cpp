@@ -35,6 +35,7 @@ namespace fl {
 		glfwSetWindowSizeCallback(window, GLFWWindowSizeCallback);
 		glfwMakeContextCurrent(window);
 		m_Renderer = new Renderer();
+		Renderer::Init();
 	}
 
 	void Window::Show()
